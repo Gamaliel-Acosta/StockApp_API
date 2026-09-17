@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# Permite solicitudes como /api/productos y /api/dashboard.
+RewriteRule ^api/?$ index.php [QSA,L]
+RewriteRule ^api/(.*)$ index.php/api/$1 [QSA,L]
+
+
