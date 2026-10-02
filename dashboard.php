@@ -22,11 +22,15 @@ function dashboard(): never
     )->fetchAll();
 
     respond([
-        'totalProducts' => (int)$summary['totalProducts'],
-        'lowStock' => (int)$summary['lowStock'],
-        'outOfStock' => (int)$summary['outOfStock'],
-        'healthyPercentage' => (int)$summary['healthyPercentage'],
-        'recentMovements' => $movements,
-        'updatedAt' => date(DATE_ATOM),
+        'success' => true,
+        'message' => 'Dashboard cargado correctamente.',
+        'data' => [
+            'totalProducts' => (int)$summary['totalProducts'],
+            'lowStock' => (int)$summary['lowStock'],
+            'outOfStock' => (int)$summary['outOfStock'],
+            'healthyPercentage' => (int)$summary['healthyPercentage'],
+            'recentMovements' => $movements,
+            'updatedAt' => date(DATE_ATOM),
+        ],
     ]);
 }

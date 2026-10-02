@@ -17,7 +17,11 @@ function productos(string $method, ?int $id): never
         $sql .= ' ORDER BY name';
         $statement = $pdo->prepare($sql);
         $statement->execute($params);
-        respond($statement->fetchAll());
+        respond([
+            'success' => true,
+            'message' => 'Productos cargados correctamente.',
+            'data' => $statement->fetchAll(),
+        ]);
     }
 
     if ($method === 'GET' && $id !== null) {
