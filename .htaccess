@@ -1,7 +1,9 @@
 RewriteEngine On
 
+# El endpoint de perfil usa GET/PATCH y recibe user_id por query o por JSON.
+RewriteRule ^api/perfil\.php$ perfil.php [QSA,L]
+
 # Permite solicitudes como /api/productos y /api/dashboard.
 RewriteRule ^api/?$ index.php [QSA,L]
 RewriteRule ^api/(.*)$ index.php/api/$1 [QSA,L]
-
 

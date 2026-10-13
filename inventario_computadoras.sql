@@ -21,14 +21,18 @@ SET FOREIGN_KEY_CHECKS = 1;
 CREATE TABLE users (
   id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
   name VARCHAR(100) NOT NULL,
+  username VARCHAR(50) DEFAULT NULL,
   email VARCHAR(150) NOT NULL,
+  phone VARCHAR(30) DEFAULT NULL,
   password VARCHAR(255) NOT NULL,
   role ENUM('admin', 'empleado') NOT NULL DEFAULT 'empleado',
   status ENUM('active', 'inactive') NOT NULL DEFAULT 'active',
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  last_login_at TIMESTAMP NULL DEFAULT NULL,
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   UNIQUE KEY uq_users_email (email),
+  UNIQUE KEY uq_users_username (username),
   KEY idx_users_status (status)
 ) ENGINE=InnoDB;
 
@@ -70,10 +74,10 @@ CREATE TABLE movimientos (
     ON DELETE RESTRICT
 ) ENGINE=InnoDB;
 
-INSERT INTO users (id, name, email, password, role, status) VALUES
-  (1, 'Administrador', 'admin@example.com', '$2y$12$oH7Be35Y4QWsfwEnHBCWJ.ZfaNd7fVhbIMFaRNNCp2fnPBYhybOK6', 'admin', 'active'),
-  (2, 'María López', 'maria@example.com', '$2y$12$oH7Be35Y4QWsfwEnHBCWJ.ZfaNd7fVhbIMFaRNNCp2fnPBYhybOK6', 'empleado', 'active'),
-  (3, 'Usuario Inactivo', 'inactivo@example.com', '$2y$12$oH7Be35Y4QWsfwEnHBCWJ.ZfaNd7fVhbIMFaRNNCp2fnPBYhybOK6', 'empleado', 'inactive');
+INSERT INTO users (id, name, username, email, phone, password, role, status) VALUES
+  (1, 'Administrador', 'admin', 'admin@example.com', NULL, '$2y$12$oH7Be35Y4QWsfwEnHBCWJ.ZfaNd7fVhbIMFaRNNCp2fnPBYhybOK6', 'admin', 'active'),
+  (2, 'María López', 'maria', 'maria@example.com', NULL, '$2y$12$oH7Be35Y4QWsfwEnHBCWJ.ZfaNd7fVhbIMFaRNNCp2fnPBYhybOK6', 'empleado', 'active'),
+  (3, 'Usuario Inactivo', 'inactivo', 'inactivo@example.com', NULL, '$2y$12$oH7Be35Y4QWsfwEnHBCWJ.ZfaNd7fVhbIMFaRNNCp2fnPBYhybOK6', 'empleado', 'inactive');
 
 INSERT INTO productos
   (id, name, code, price, available, minimum_stock, category, brand, description, active)

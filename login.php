@@ -79,7 +79,7 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 try {
     // Consulta preparada para evitar SQL Injection.
     $stmt = $pdo->prepare(
-        'SELECT id, name, email, password, role, status
+        'SELECT id, name, username, email, phone, password, role, status, created_at
          FROM users
          WHERE email = :email
          LIMIT 1'
@@ -107,6 +107,8 @@ try {
         exit;
     }
 
+    $pdo->prepare('UPDATE users SET last_login_at = CURRENT_TIMESTAMP WHERE id = ?')->execute([$user['id']]);
+
     // Respuesta sin exponer el hash de la contraseña.
     http_response_code(200);
     echo json_encode([
@@ -115,8 +117,12 @@ try {
         'user' => [
             'id' => (int) $user['id'],
             'name' => $user['name'],
+            'username' => $user['username'],
             'email' => $user['email'],
-            'role' => $user['role']
+            'phone' => $user['phone'],
+            'role' => $user['role'],
+            'createdAt' => date('c', strtotime($user['created_at'])),
+            'lastLoginAt' => date(DATE_ATOM)
         ]
     ], JSON_UNESCAPED_UNICODE);
 
